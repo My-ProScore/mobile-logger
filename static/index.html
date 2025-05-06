@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logs Viewer</title>
+    <!-- React and ReactDOM -->
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script>
+        const { useState, useEffect } = React;
+
+        function LogsViewer() {
+            const [logs, setLogs] = useState([]);
+
+            useEffect(() => {
+                fetch('http://localhost:3000/api/log')
+                    .then(response => response.json())
+                    .then(data => setLogs(data))
+                    .catch(error => console.error('Error fetching logs:', error));
+            }, []);
+
+            return (
+                <div>
+                    <h1>Logs Viewer</h1>
+                    <table border="1" style={{ width: '100%', borderCollapse: 'collapse' }}>
+                        <thead>
+                            <tr>
+                                <th>User ID</th>
+                                <th>API Endpoint</th>
+                                <th>Request Metadata</th>
+                                <th>Response Metadata</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {logs.map((log, index) => (
+                                <tr key={index}>
+                                    <td>{log.userId}</td>
+                                    <td>{log.apiEndpoint}</td>
+                                    <td>{JSON.stringify(log.requestMetadata)}</td>
+                                    <td>{JSON.stringify(log.responseMetadata)}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<LogsViewer />, document.getElementById('root'));
+    </script>
+</body>
+</html>

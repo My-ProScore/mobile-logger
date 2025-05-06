@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path');
 require('dotenv').config();
 
 // Import models
@@ -12,6 +13,9 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Serve static files from the "static" directory
+app.use('/static', express.static(path.join(__dirname, 'static')));
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI)
