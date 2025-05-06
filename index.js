@@ -42,9 +42,8 @@ app.get('/api/log', async (req, res) => {
 });
 
 app.post('/api/savelog', async (req, res) => {
-  console.log('Received request to save log:', req.body);
+
     const { userId, apiEndpoint, requestMetadata, responseMetadata } = req.body;
-    console.log('Parsed request body:', { userId, apiEndpoint, requestMetadata, responseMetadata });
     const log = new Log({
         userId,
         apiEndpoint,
