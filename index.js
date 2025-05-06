@@ -28,7 +28,7 @@ mongoose.connect(process.env.MONGODB_URI)
 
 // Routes
 app.get('/', (req, res) => {
-  res.send('Welcome to the Node.js MongoDB API');
+  res.sendFile(path.join(__dirname, 'static', 'index.html'));
 });
 
 // Sample API endpoints
@@ -42,7 +42,9 @@ app.get('/api/log', async (req, res) => {
 });
 
 app.post('/api/savelog', async (req, res) => {
+  console.log('Received request to save log:', req.body);
     const { userId, apiEndpoint, requestMetadata, responseMetadata } = req.body;
+    console.log('Parsed request body:', { userId, apiEndpoint, requestMetadata, responseMetadata });
     const log = new Log({
         userId,
         apiEndpoint,
